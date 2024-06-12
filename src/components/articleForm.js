@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 
@@ -7,9 +7,14 @@ function ArticleForm (){
     const [description, setDescription] = useState("");
     const [categorie, setCategorie] = useState("");
     const [quantity, setQuantity] = useState(1);
-    const token= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0ODhjYjExOTE1OWM0MWJjN2NkZjdkIiwiZW1haWwiOiI3Nzg4OTk4NjUifQ.PW6k9OFWMvoZAWXnDp6UBQJQeT-1B10-tLFLuUPMkJE"
+
     const  handleSubmit = async (event) => {
         event.preventDefault();
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('No token found. Please log in.');
+            return;
+        }
         const reponse = await axios.post('http://127.0.0.1:8000/articles',{
             name,
             description,

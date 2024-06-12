@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,15 +18,23 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 function SignIn() {
-  const handleSubmit = (event) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get('email');
-    const password = data.get('password');
 
     if (!email || !password) {
-      alert('Please fill out both fields.');
-      return;
+      const response = await axios.post('http://127.0.0.1:8000/auth',{
+            email,
+            password
+        });
+       // Stockage du token et redirection
+       const { access_token } = response.data;
+       localStorage.setItem('token', access_token);
+
+       navigate('/'); 
     }
 
     console.log({
@@ -38,6 +48,8 @@ function SignIn() {
       <CssBaseline />
       <Container component="main" maxWidth="xs">
         <Box
+          component="form" 
+          onSubmit={handleSubmit}
           sx={{
             marginTop: 8,
             display: 'flex',
@@ -59,6 +71,8 @@ function SignIn() {
               id="email"
               label="Email Address"
               name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
               autoFocus
             />
@@ -69,6 +83,8 @@ function SignIn() {
               name="password"
               label="Password"
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               id="password"
               autoComplete="current-password"
             />
@@ -88,11 +104,6 @@ function SignIn() {
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
