@@ -18,27 +18,32 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 function SignIn() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!email || !password) {
+      
       const response = await axios.post('http://127.0.0.1:8000/auth',{
-            email,
+            username,
             password
-        });
+        } , {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          });
+
        // Stockage du token et redirection
        const { access_token } = response.data;
        localStorage.setItem('token', access_token);
 
        navigate('/'); 
-    }
+    
 
     console.log({
-      email,
+      username,
       password,
     });
   };
@@ -48,8 +53,6 @@ function SignIn() {
       <CssBaseline />
       <Container component="main" maxWidth="xs">
         <Box
-          component="form" 
-          onSubmit={handleSubmit}
           sx={{
             marginTop: 8,
             display: 'flex',
@@ -68,12 +71,12 @@ function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
+              id="username"
+              label="username"
+              name="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoComplete="username"
               autoFocus
             />
             <TextField

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { TextField, Button, Box } from '@mui/material';
 
 
 function ArticleForm (){
@@ -7,6 +9,7 @@ function ArticleForm (){
     const [description, setDescription] = useState("");
     const [categorie, setCategorie] = useState("");
     const [quantity, setQuantity] = useState(1);
+    const navigate = useNavigate();
 
     const  handleSubmit = async (event) => {
         event.preventDefault();
@@ -24,24 +27,59 @@ function ArticleForm (){
             headers: {
               Authorization: `Bearer ${token}`
         }});
+        navigate('/'); 
     }
 
-    return(
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label  >Name</label>  <br/>
-                <input type="text" id="name" value={name}  onChange={(e) => setName(e.target.value)} required></input>
-                <label >Description</label><br/>
-                <input type="text" id="description" value={description}  onChange={(e) => setDescription(e.target.value)} required></input>
-                <label >Categorie</label><br/>
-                <input type="text" id="categorie" value={categorie}  onChange={(e) => setCategorie(e.target.value)} required></input>
-                <label >Quantité</label><br/>
-                <input type="number" id="quantity" value={quantity}  onChange={(e) => setQuantity(e.target.value)} required></input>
-                <input type="submit" value="Envoyer"/>
-            </form>
-        </div> 
-    );
-    
+    return (
+        <Box component="div" sx={{ maxWidth: 400, margin: 'auto', padding: 2 }}>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Name"
+              variant="outlined"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+               <TextField
+          fullWidth
+          margin="normal"
+          label="Description"
+          variant="outlined"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+          multiline
+          rows={4}  // Adjust the number of rows as needed
+        />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Categorie"
+              variant="outlined"
+              value={categorie}
+              onChange={(e) => setCategorie(e.target.value)}
+              required
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Quantité"
+              type="number"
+              variant="outlined"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              required
+            />
+            <Box textAlign="center" mt={2}>
+              <Button type="submit" variant="contained" color="primary">
+                Envoyer
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      );
 }
 
 export default ArticleForm
