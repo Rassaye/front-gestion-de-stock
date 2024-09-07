@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,6 +14,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useAuth } from '../contexts/authContext'; 
 
 
 
@@ -21,31 +22,13 @@ function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const {login} = useAuth()
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-      
-      const response = await axios.post('http://127.0.0.1:8000/auth',{
-            username,
-            password
-        } , {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
-          });
-
-       // Stockage du token et redirection
-       const { access_token } = response.data;
-       localStorage.setItem('token', access_token);
-
-       navigate('/'); 
-    
-
-    console.log({
-      username,
-      password,
-    });
+   
+    await login(username, password)
+    navigate('/'); 
   };
 
   return (

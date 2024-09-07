@@ -7,19 +7,24 @@ import SignIn from './components/signIn';
 import Home from './pages/home';
 import Inventory from './pages/inventory';
 import Settings from './pages/settings';
+import PrivateRoute from './components/privateRoute';
 
 const AppRoutes = () => {
   return (
     
-      <Routes>
-        <Route path="/" element={<Articles />} />
-        <Route path="/articles" element={<Articles />} />
-        <Route path="/articleForm" element={<ArticleForm />} />
-        <Route path="/categories" element={<Categories />} />
+    <Routes>
+
         <Route path="/signIn" element={<SignIn />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/inventory" element={<Inventory />} />
-        <Route path="/setting" element={<Settings />} />
+
+        {/* Our private Routes */}
+
+        <Route path="/" element={<PrivateRoute element={<Articles />}/>}/>
+        <Route path="/articles" element= {<PrivateRoute element={<Articles />} />}/>
+        <Route path="/articleForm" element= {<PrivateRoute element={<ArticleForm />} />}/>
+        <Route path="/categories" element={<PrivateRoute element={<Categories />} />}/>
+        <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+        <Route path="/inventory" element={<PrivateRoute element={<Inventory />} />}/>
+        <Route path="/setting" element={<PrivateRoute element={<Settings />} />} />
       </Routes>
   );
 };
