@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Box } from '@mui/material';
 
@@ -18,7 +18,7 @@ function ArticleForm (){
             alert('No token found. Please log in.');
             return;
         }
-        const reponse = await axios.post('http://127.0.0.1:8000/articles',{
+        const reponse = await api.post('/articles',{
             name,
             description,
             categorie,

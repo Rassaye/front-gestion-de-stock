@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import ResponsiveAppBar from './ResponsiveAppBar'; // Importez le composant de la barre de navigation
+import api from '../utils/api';
 
 function Categories() {
   const [categories, setCategories] = useState([]);
@@ -8,7 +7,7 @@ function Categories() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/categories');
+        const response = await api.get('/categories');
         // Mettre à jour l'état avec les données de la réponse
         setCategories(response.data);
         console.log(response.data);

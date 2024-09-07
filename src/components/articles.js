@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import ResponsiveAppBar from './ResponsiveAppBar';
 
 function Articles() {
     const [articles, setData] = useState([]);
@@ -15,7 +14,7 @@ function Articles() {
     useEffect(() => {
         const chargerDonnees = async () => {
             try {
-                const reponse = await axios.get('http://127.0.0.1:8000/articles');
+                const reponse = await api.get('/articles');
                 setData(reponse.data);
                 console.log(reponse.data);
             } catch (erreur) {
@@ -39,7 +38,7 @@ function Articles() {
                                     <CardMedia
                                         component="img"
                                         height="140"
-                                        image="/static/images/cards/contemplative-reptile.jpg"
+                                        image={article.image || "https://avatar.iran.liara.run/public"}
                                         alt="green iguana"
                                     />
                                     <CardContent>
